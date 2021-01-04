@@ -2,75 +2,35 @@
 (1)粒度测定
 ```
 I = imread('1.png');
-```
-```
 figure;imshow(I)
-```
-```
 I=rgb2gray(I);
-```
-```
 claheI = adapthisteq(I,'NumTiles',[10,10]);
-```
-```
 claheI = imadjust(claheI);
-```
-```
 figure;imshow(claheI);
 ```
 （2）计算粒度大小的总体分布
 ```
 for counter=0:22
-```
-```
     remain=imopen(claheI,strel('disk',counter));
-    ```
-    ```
 intensity_area(counter+1)=sum(remain(:));
-```
-```
 end
-```
-```
 figure
-```
-```
 plot(intensity_area,'m - *'),
 grid on;
 ```
 （3）计算不同半径下的粒度分布
 ```
 intensity_area_prime=diff(intensity_area);
-```
-```
 figure;
-```
-```
 plot(intensity_area_prime,'m - *'),
 grid on;
-```
-```
 title('Granulometry(Size Distribution)of Snowflakes');
-```
-```
 set(gca,'xtick',[0 2 4 6 8 10 12 14 16 18 20 22]);
-```
-```
 xlabel('radius of spore(pixels)');
-```
-```
 ylabel('Sum of pixel values in spore as a function of radius');
-```
-```
 open5=imopen(claheI,strel('disk',5));
-```
-```
 open6=imopen(claheI,strel('disk',6));
-```
-```
 rad5=imsubtract(open5,open6);
-```
-```
 figure;imshow(rad5,[]);
 ```
 (4)转换为灰度图像
