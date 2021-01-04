@@ -6,37 +6,82 @@ I = imread('1.png');
 ```
 figure;imshow(I)
 ```
+```
 I=rgb2gray(I);
+```
+```
 claheI = adapthisteq(I,'NumTiles',[10,10]);
+```
+```
 claheI = imadjust(claheI);
+```
+```
 figure;imshow(claheI);
+```
 （2）计算粒度大小的总体分布
+```
 for counter=0:22
+```
+```
     remain=imopen(claheI,strel('disk',counter));
+    ```
+    ```
 intensity_area(counter+1)=sum(remain(:));
+```
+```
 end
+```
+```
 figure
+```
+```
 plot(intensity_area,'m - *'),
 grid on;
+```
 （3）计算不同半径下的粒度分布
+```
 intensity_area_prime=diff(intensity_area);
+```
+```
 figure;
+```
+```
 plot(intensity_area_prime,'m - *'),
 grid on;
+```
+```
 title('Granulometry(Size Distribution)of Snowflakes');
+```
+```
 set(gca,'xtick',[0 2 4 6 8 10 12 14 16 18 20 22]);
+```
+```
 xlabel('radius of spore(pixels)');
+```
+```
 ylabel('Sum of pixel values in spore as a function of radius');
+```
+```
 open5=imopen(claheI,strel('disk',5));
+```
+```
 open6=imopen(claheI,strel('disk',6));
+```
+```
 rad5=imsubtract(open5,open6);
+```
+```
 figure;imshow(rad5,[]);
+```
 (4)转换为灰度图像
+```
 img= imread('1.png');
 figure;imshow(img);
-img=rgb2gray(img);     
+img=rgb2gray(img); 
 figure;imshow(img);  
+```
 （5）平滑处理
+```
 img= imread('1.png');
 R=img(:,:,1);
 G=img(:,:,2);
@@ -74,7 +119,9 @@ m_mid=floor(M/2);%中心点坐标
     img_lpf=uint8(real(ifft2(img_lpf)));  %反傅里叶变换,
     img = img_lpf;
 end
+```
 （6）canny算子算法
+```
 clc
 clear all
 img_in=imread('1.png');
@@ -146,16 +193,21 @@ for i = 1:rows
         end;end;end
 bw=edge(img_bw,'canny');
 figure,imshow(img_out);title('结果图');figure,imshow(bw);title('Canny算子效果图');
+```
 （7）腐蚀
+```
 img=imread('2.png');
 B=[0 1 0;1 1 1;0 1 0];
 i1=imerode(img,B);
 i2=imerode(i1,B);
 i3=imerode(i2,B);
 imshow(img),figure,imshow(i1),figure,imshow(i2),figure,imshow(i3);
+```
 （8）膨胀
+```
 X=imread('3.png');
 B=[0 1 0;1 1 1;0 1 0];
 Z=imdilate(X,B);
 imshow(X),figure,imshow(Z);
+```
 总结：首先对图像进行一系列预处理，再进行特征提取。
