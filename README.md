@@ -1,7 +1,11 @@
 # Matlab1
 (1)粒度测定
+```
 I = imread('1.png');
+```
+```
 figure;imshow(I)
+```
 I=rgb2gray(I);
 claheI = adapthisteq(I,'NumTiles',[10,10]);
 claheI = imadjust(claheI);
